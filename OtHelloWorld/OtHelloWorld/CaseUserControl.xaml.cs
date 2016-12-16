@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace OtHelloWorld
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for CaseUserControl.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class CaseUserControl : UserControl
     {
-        public MainWindow()
+        public CaseUserControl()
         {
             InitializeComponent();
-
-            CaseUserControl test = new CaseUserControl();
-            Grid.SetColumn(test, 0);
-            Grid.SetRow(test, 0);
-            plateau.Children.Add(test);
         }
     }
 }
