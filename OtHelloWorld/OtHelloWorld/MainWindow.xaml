@@ -6,7 +6,14 @@
         xmlns:local="clr-namespace:OtHelloWorld"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+    <Grid x:Name="plateau">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*">
+                
+            </ColumnDefinition>
+            <ColumnDefinition Width="*">
+
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
     </Grid>
 </Window>
