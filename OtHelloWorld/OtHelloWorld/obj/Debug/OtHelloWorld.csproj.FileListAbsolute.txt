@@ -1,1 +1,14 @@
 D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\bin\Debug\OtHelloWorld.exe.config
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\bin\Debug\OtHelloWorld.exe
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\bin\Debug\OtHelloWorld.pdb
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\OtHelloWorld.csprojResolveAssemblyReference.cache
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\MainWindow.g.cs
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\App.g.cs
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\OtHelloWorld_MarkupCompile.cache
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\OtHelloWorld_MarkupCompile.lref
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\MainWindow.baml
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\OtHelloWorld.g.resources
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\OtHelloWorld.Properties.Resources.resources
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\OtHelloWorld.csproj.GenerateResource.Cache
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\OtHelloWorld.exe
+D:\GitsWin\Othello-DotNet\OtHelloWorld\OtHelloWorld\obj\Debug\OtHelloWorld.pdb
