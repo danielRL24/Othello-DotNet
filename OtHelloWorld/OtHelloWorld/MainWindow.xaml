@@ -16,7 +16,7 @@
                 <MenuItem Header="_Exit" />
             </MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom" Height="30">
+        <StatusBar DockPanel.Dock="Bottom" Height="20">
             <StatusBarItem>
                 <TextBlock Name="lblCursorPosition" Text="StatusBar"/>
             </StatusBarItem>
