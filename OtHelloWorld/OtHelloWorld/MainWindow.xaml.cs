@@ -29,7 +29,7 @@ namespace OtHelloWorld
         private void NewGame()
         {
 
-            Board board = new Board();
+            Game game = new Game();
 
             for(int i = 0; i <= 8; i++)
             {

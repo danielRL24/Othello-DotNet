@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OtHelloWorld"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="70" d:DesignWidth="70" MinWidth="70" MinHeight="70" Width="70" Height="70">
 
     <Grid Background="DarkGreen">
         <Border BorderBrush="LightYellow" BorderThickness="1,1,1,1"></Border>

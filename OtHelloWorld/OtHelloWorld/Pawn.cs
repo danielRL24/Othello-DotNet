@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace OtHelloWorld
 {
-    class Board
+    class Pawn
     {
-        private Pawn[,] pawns;
+        private int color;
 
-        public Board ()
-        {
-            this.pawns = new Pawn[8, 8];
-        }
+        public int Color { get { return this.color; } set { this.color = value; } }
     }
 }
