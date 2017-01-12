@@ -21,23 +21,46 @@ namespace OtHelloWorld
     public partial class TileUserControl : UserControl
     {
 
-        private int col;
-        private int row;
+        private int x;
+        private int y;
+        private bool isEmpty;
 
         public TileUserControl()
         {
             InitializeComponent();
         }
 
-        public TileUserControl(int col, int row) : this()
+        public TileUserControl(int x, int y) : this()
         {
-            this.col = col;
-            this.row = row;
-            LabelName.Content = "("+(char)(col+65)+";"+row+")";
+            this.x = x;
+            this.y = y;
+            this.isEmpty = true;
+            //PawnLbl.Content = "("+(char)(col+65)+";"+row+")";
         }
 
-        public int Col { get { return col; } }
+        public int X { get { return x; } }
 
-        public int Row { get { return row; } }
+        public int Y { get { return y; } }
+
+        public bool IsEmpty { set { this.isEmpty = value; } }
+
+        private void TileUC_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if(isEmpty)
+                PawnLbl.Background = Board.getPawnBrush();
+        }
+
+        private void TileUC_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if(isEmpty)
+                PawnLbl.Background = null;
+        }
+
+        private void TileUC_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            PawnLbl.Background = Board.getPawnBrush();
+            this.isEmpty = false;
+            Board.play(this.y, this.x);
+        }
     }
 }

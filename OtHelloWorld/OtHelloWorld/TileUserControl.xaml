@@ -5,10 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OtHelloWorld"
              mc:Ignorable="d" 
-             d:DesignHeight="70" d:DesignWidth="70" MinWidth="70" MinHeight="70" Width="70" Height="70">
+             d:DesignHeight="70" d:DesignWidth="70" MinWidth="70" MinHeight="70" Width="70" Height="70" MouseEnter="TileUC_MouseEnter" MouseLeave="TileUC_MouseLeave" MouseLeftButtonUp="TileUC_MouseLeftButtonUp">
 
-    <Grid Background="DarkGreen">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="images/tileBG.jpg"/>
+        </Grid.Background>
         <Border BorderBrush="LightYellow" BorderThickness="1,1,1,1"></Border>
-        <Label x:Name="LabelName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="White"></Label>
+        <Label x:Name="PawnLbl" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="White" Margin="5" MinWidth="60" MinHeight="60"></Label>
     </Grid>
 </UserControl>
