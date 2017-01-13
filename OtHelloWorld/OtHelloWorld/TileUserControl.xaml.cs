@@ -42,25 +42,6 @@ namespace OtHelloWorld
 
         public int Y { get { return y; } }
 
-        public bool IsEmpty { set { this.isEmpty = value; } }
-
-        private void TileUC_MouseEnter(object sender, MouseEventArgs e)
-        {
-            if(isEmpty)
-                PawnLbl.Background = Board.getPawnBrush();
-        }
-
-        private void TileUC_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if(isEmpty)
-                PawnLbl.Background = null;
-        }
-
-        private void TileUC_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            PawnLbl.Background = Board.getPawnBrush();
-            this.isEmpty = false;
-            Board.play(this.y, this.x);
-        }
+        public bool IsEmpty { get { return this.isEmpty; } set { this.isEmpty = value; } }
     }
 }
