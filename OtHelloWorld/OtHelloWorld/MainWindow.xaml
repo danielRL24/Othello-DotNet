@@ -29,6 +29,9 @@
             </Grid.ColumnDefinitions>
             <Viewbox Stretch="Uniform" Grid.Column="1">
                 <Grid x:Name="BoardGrid">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="images/gridBG.png"/>
+                    </Grid.Background>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>

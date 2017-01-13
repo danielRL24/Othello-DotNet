@@ -22,7 +22,7 @@ namespace OtHelloWorld
             pawnsColor = new List<ImageBrush>();
             pawnsColor.Add(createBrushFromImage("whitePawn.png"));
             pawnsColor.Add(createBrushFromImage("blackPawn.png"));
-            isWhite = true;
+            isWhite = false;
         }
 
 
