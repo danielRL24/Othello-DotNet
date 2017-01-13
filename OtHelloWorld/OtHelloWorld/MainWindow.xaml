@@ -30,7 +30,7 @@
             <Viewbox Stretch="Uniform" Grid.Column="1">
                 <Grid x:Name="BoardGrid">
                     <Grid.Background>
-                        <ImageBrush ImageSource="images/gridBG.png"/>
+                        <ImageBrush ImageSource="images/gridBG.jpg"/>
                     </Grid.Background>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
