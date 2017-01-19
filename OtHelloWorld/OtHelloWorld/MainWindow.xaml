@@ -5,7 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OtHelloWorld"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" MinWidth="800" MinHeight="600">
+        Title="MainWindow" Height="600" Width="800" MinWidth="800" MinHeight="600" Background="Black">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="Yellow" />
+            <Setter Property="FontSize" Value="24" />
+        </Style>
+    </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -27,6 +33,35 @@
                 <ColumnDefinition Width="4*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label x:Name="namePlayer1Lbl" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Player 1"/>
+                <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Temps"/>
+                <Label x:Name="timePlayer1Lbl" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding Players[0].Time}"/>
+                <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Score"/>
+                <Label x:Name="scorePlayer1Lbl" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding Players[0].Score}"/>
+            </Grid>
+            
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label x:Name="namePlayer2Lbl" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Player 2"/>
+                <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Temps"/>
+                <Label x:Name="timePlayer2Lbl" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding Players[1].Time}"/>
+                <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Score"/>
+                <Label x:Name="scorePlayer2Lbl" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding Players[1].Score}"/>
+            </Grid>
             <Viewbox Stretch="Uniform" Grid.Column="1">
                 <Grid x:Name="BoardGrid">
                     <Grid.Background>

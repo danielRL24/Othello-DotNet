@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Game.cs" />
     <Compile Include="IPlayable.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="TileUserControl.xaml.cs">
       <DependentUpon>TileUserControl.xaml</DependentUpon>
     </Compile>
