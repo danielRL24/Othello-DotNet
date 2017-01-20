@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +13,10 @@ namespace OtHelloWorld
         private int[,] board;
         private List<ImageBrush> pawnsColor;
         private bool isWhite;
-        private List<Player> players;
+        private int[,] pawnToReturn;
 
-        enum Colors { black = 0, white}
+        enum Colors { white = 0, black }
+        //enum Directions { east, northEast, north, northWest, west, southWest, south, southEast }
 
         public Game ()
         {
@@ -29,13 +29,9 @@ namespace OtHelloWorld
                 }
             }
             pawnsColor = new List<ImageBrush>();
-            pawnsColor.Add(createBrushFromImage("blackPawn.png"));
             pawnsColor.Add(createBrushFromImage("whitePawn.png"));
-            players = new List<Player>();
-            players.Add(new Player());
-            players.Add(new Player());
+            pawnsColor.Add(createBrushFromImage("blackPawn.png"));
             isWhite = false;
-            players[(int)Colors.black].StartTimer();
         }
 
 
@@ -47,7 +43,7 @@ namespace OtHelloWorld
             return imgBrush;
         }
 
-        public ImageBrush getPawnBrush()
+        public ImageBrush GetPawnBrush()
         {
             return isWhite ? pawnsColor[(int)Colors.white] : pawnsColor[(int)Colors.black];
         }
@@ -56,37 +52,122 @@ namespace OtHelloWorld
         {
             board[x,y] = isWhite ? (int)Colors.white : (int)Colors.black;
             isWhite = !isWhite;
-            if (isWhite)
-            {
-                players[(int)Colors.black].StopTimer();
-                //players[(int)Colors.black].Score = players[(int)Colors.black].Score + 1;
-                players[(int)Colors.white].StartTimer();
-
-            }
-            else
-            {
-                players[(int)Colors.white].StopTimer();
-                //players[(int)Colors.white].Score = players[(int)Colors.white].Score + 1;
-                players[(int)Colors.black].StartTimer();
-            }
         }
 
-        public ImageBrush getBrush(int color) {
+        public ImageBrush GetBrush(int color) {
             return pawnsColor[color];
         }
 
-        public List<Player> Players
+        public bool IsLegal(int x, int y)  
         {
-            get
+            int pawnEnemy = isWhite ? (int)Colors.black : (int)Colors.white;
+            bool result = false;
+            if (y - 1 >= 0 && board[x, y - 1] == pawnEnemy) //sud
             {
-                return players;
+                result = playableAxisY(x, y - 1, pawnEnemy, 1);
             }
-
-            set
+            if(x - 1 >= 0 && y - 1 >= 0 && board[x - 1, y - 1] == pawnEnemy) //sud ouest
             {
-                players = value;
+                Console.Write("-> sud ouest");
+                result = playableDiag1(x - 1, y - 1, pawnEnemy, 1);
             }
+            if (x - 1 >= 0 && board[x - 1, y] == pawnEnemy) // ouest
+            {
+                result = playableAxisX(x - 1, y, pawnEnemy, -1);
+            }
+            if (x - 1 >= 0 && y + 1 <= 7 && board[x - 1, y + 1] == pawnEnemy) // nord ouest
+            {
+                result = playableDiag2(x - 1, y + 1, pawnEnemy, -1);
+            }
+            if (y + 1 <= 7 && board[x, y + 1] == pawnEnemy) //nord
+            {
+                result = playableAxisY(x, y + 1, pawnEnemy, -1);
+            }
+            if (x + 1 <= 7 && y + 1 <= 7 && board[x + 1, y + 1] == pawnEnemy) //nord est
+            {
+                result = playableDiag1(x + 1, y + 1, pawnEnemy, -1); // c'est ici que ca passe pas!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }
+            if (x + 1 <= 7 && board[x + 1, y] == pawnEnemy) // est
+            {
+                result = playableAxisX(x + 1, y, pawnEnemy, 1);
+            }
+            if (x + 1 <= 7 && y - 1 >= 0 && board[x + 1, y - 1] == pawnEnemy) //sud est
+            {
+                result = playableDiag2(x + 1, y - 1, pawnEnemy, 1);
+            }
+            return result;          
         }
 
+        
+        private bool playableAxisY(int x, int y,int pawnEnemy, int direction)
+        {
+            bool result = false;
+            int i = y;
+            while((i>0 && i < 8) || result == true)
+            {
+                if(board[x,i] != pawnEnemy && board[x,i] != -1)
+                {
+                    result = true;
+                }
+                i += direction;
+            }
+            return result; 
+        }
+
+        private bool playableAxisX(int x, int y, int pawnEnemy, int direction)
+        {
+            bool result = false;
+            int i = x;
+            while ((i > 0 && i < 8) || result == true)
+            {
+                if (board[i, y] != pawnEnemy && board[i, y] != -1)
+                {
+                    result = true;
+                }
+                i += direction;
+            }
+            return result;
+        }
+
+        private bool playableDiag1(int x, int y, int pawnEnemy, int direction)
+        {
+            bool result = false;
+            int i = x;
+            int j = y;
+            while ((i > 0 && i < 8)||(j>0 && j<8)|| result == true)
+            {
+                if (board[i, j] != pawnEnemy && board[i, j] != -1)
+                {
+                    result = true;
+                }
+                i -= direction;
+                j += direction;
+            }
+            return result;
+        }
+
+        private bool playableDiag2(int x, int y, int pawnEnemy, int direction)
+        {
+            bool result = false;
+            int i = x;
+            int j = y;
+            while ((i > 0 && i < 8) || (j > 0 && j < 8) || result == true)
+            {
+                if (board[i, j] != pawnEnemy && board[i, j] != -1)
+                {
+                    result = true;
+                }
+                i += direction;
+                j += direction;
+            }
+            return result;
+        }
+
+        public void returnPawn()
+        {
+
+        }
+
+        
     }
 }

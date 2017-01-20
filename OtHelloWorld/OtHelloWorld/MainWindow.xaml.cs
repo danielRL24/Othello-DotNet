@@ -38,22 +38,22 @@ namespace OtHelloWorld
                     tuc.MouseLeftButtonUp += TileUC_MouseLeftButtonUp;
                     if (i == 3 && j == 3)
                     {
-                        tuc.PawnLbl.Background = this.game.getBrush(0);
+                        tuc.PawnLbl.Background = this.game.GetBrush(0);
                         tuc.IsEmpty = false;
                     }
                     else if (i == 3 && j == 4)
                     {
-                        tuc.PawnLbl.Background = this.game.getBrush(1);
+                        tuc.PawnLbl.Background = this.game.GetBrush(1);
                         tuc.IsEmpty = false;
                     }
                     else if (i == 4 && j == 3)
                     {
-                        tuc.PawnLbl.Background = this.game.getBrush(1);
+                        tuc.PawnLbl.Background = this.game.GetBrush(1);
                         tuc.IsEmpty = false;
                     }
                     else if (i == 4 && j == 4)
                     {
-                        tuc.PawnLbl.Background = this.game.getBrush(0);
+                        tuc.PawnLbl.Background = this.game.GetBrush(0);
                         tuc.IsEmpty = false;
                     }
                     Grid.SetColumn(tuc, i);
@@ -68,8 +68,8 @@ namespace OtHelloWorld
         private void TileUC_MouseEnter(object sender, MouseEventArgs e)
         {
             TileUserControl tuc = (TileUserControl)sender;
-            if (tuc.IsEmpty)
-                tuc.PawnLbl.Background = this.game.getPawnBrush();
+            if (tuc.IsEmpty && this.game.IsLegal(tuc.X, tuc.Y))
+                tuc.PawnLbl.Background = this.game.GetPawnBrush();
         }
 
         private void TileUC_MouseLeave(object sender, MouseEventArgs e)
@@ -82,7 +82,7 @@ namespace OtHelloWorld
         private void TileUC_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             TileUserControl tuc = (TileUserControl)sender;
-            tuc.PawnLbl.Background = this.game.getPawnBrush();
+            tuc.PawnLbl.Background = this.game.GetPawnBrush();
             tuc.IsEmpty = false;
             this.game.play(tuc.Y, tuc.X);
         }
