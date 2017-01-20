@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Contexts;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,6 +16,7 @@ namespace OtHelloWorld
     {
 
         private Game game;
+        private Contexte contexte;
 
         public MainWindow()
         {
@@ -60,6 +62,9 @@ namespace OtHelloWorld
                     BoardGrid.Children.Add(tuc);
                 } 
             }
+
+            contexte = new Contexte { Time1 = game.Players[0].Time, Time2 = game.Players[1].Time, Score1 = game.Players[0].Score, Score2 = game.Players[1].Score };
+            DataContext = game;
         }
 
         private void TileUC_MouseEnter(object sender, MouseEventArgs e)
@@ -84,4 +89,13 @@ namespace OtHelloWorld
             this.game.play(tuc.Y, tuc.X);
         }
     }
+
+    public class Contexte
+    {
+        public int Time1 { get; set; }
+        public int Time2 { get; set; }
+        public int Score1 { get; set; }
+        public int Score2 { get; set; }
+    }
+
 }

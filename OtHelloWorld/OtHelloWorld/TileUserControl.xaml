@@ -8,7 +8,7 @@
              d:DesignHeight="70" d:DesignWidth="70" MinWidth="70" MinHeight="70" Width="70" Height="70">
 
     <Grid>
-        <Border BorderBrush="LightYellow" BorderThickness="0.5,0.5,0.5,0.5" Background="#00000000"></Border>
+        <Border BorderBrush="Yellow" BorderThickness="0.5,0.5,0.5,0.5" Background="#00000000"></Border>
         <Label x:Name="PawnLbl" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="White" Margin="5" MinWidth="60" MinHeight="60"></Label>
     </Grid>
 </UserControl>
