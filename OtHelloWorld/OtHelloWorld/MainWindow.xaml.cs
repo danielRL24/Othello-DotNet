@@ -16,7 +16,6 @@ namespace OtHelloWorld
     {
 
         private Game game;
-        private Contexte contexte;
 
         public MainWindow()
         {
@@ -63,7 +62,6 @@ namespace OtHelloWorld
                 } 
             }
 
-            contexte = new Contexte { Time1 = game.Players[0].Time, Time2 = game.Players[1].Time, Score1 = game.Players[0].Score, Score2 = game.Players[1].Score };
             DataContext = game;
         }
 
@@ -88,14 +86,25 @@ namespace OtHelloWorld
             tuc.IsEmpty = false;
             this.game.play(tuc.Y, tuc.X);
         }
-    }
 
-    public class Contexte
-    {
-        public int Time1 { get; set; }
-        public int Time2 { get; set; }
-        public int Score1 { get; set; }
-        public int Score2 { get; set; }
-    }
+        private void MenuItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
 
+        }
+
+        private void MenuItem_MouseLeftButtonUp_1(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_MouseLeftButtonUp_2(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_MouseLeftButtonUp_3(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+    }
 }
