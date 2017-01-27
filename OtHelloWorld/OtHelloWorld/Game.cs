@@ -14,9 +14,10 @@ namespace OtHelloWorld
         private List<ImageBrush> pawnsColor;
         private bool isWhite;
         private int[,] pawnToReturn;
+        private List<Player> players;
 
-        enum Colors { white = 0, black }
-        //enum Directions { east, northEast, north, northWest, west, southWest, south, southEast }
+        enum Colors { black = 0, white }
+        Dictionary<String, bool> directions;
 
         public Game ()
         {
@@ -28,12 +29,38 @@ namespace OtHelloWorld
                     board[i, j] = -1;
                 }
             }
+            directions.Add("Sud", true);
+            directions.Add("SudOuest", true);
+            directions.Add("Ouest", true);
+            directions.Add("NordOuest", true);
+            directions.Add("Nord", true);
+            directions.Add("NordEst", true);
+            directions.Add("Est", true);
+            directions.Add("SudEst", true);
             pawnsColor = new List<ImageBrush>();
-            pawnsColor.Add(createBrushFromImage("whitePawn.png"));
             pawnsColor.Add(createBrushFromImage("blackPawn.png"));
+            pawnsColor.Add(createBrushFromImage("whitePawn.png"));
+            players = new List<Player>();
+            players.Add(new Player());
+            players.Add(new Player());
+            board[3, 3] = 0;
+            board[4, 4] = 0;
+            board[3, 4] = 1;
+            board[4, 3] = 1;
             isWhite = false;
         }
 
+        private void initDirections()
+        {
+            directions["Sud"] = true;
+            directions["SudOuest"] = true;
+            directions["Ouest"] = true;
+            directions["NordOuest"] = true;
+            directions["Nord"] = true;
+            directions["NordEst"] = true;
+            directions["Est"] = true;
+            directions["SudEst"] = true;
+        }
 
         private ImageBrush createBrushFromImage(String filename)
         {
@@ -48,7 +75,7 @@ namespace OtHelloWorld
             return isWhite ? pawnsColor[(int)Colors.white] : pawnsColor[(int)Colors.black];
         }
 
-        public void play(int x, int y)
+        public void Play(int x, int y)
         {
             board[x,y] = isWhite ? (int)Colors.white : (int)Colors.black;
             isWhite = !isWhite;
@@ -58,42 +85,72 @@ namespace OtHelloWorld
             return pawnsColor[color];
         }
 
+        public List<Player> Players
+        {
+            get
+            {
+                return players;
+            }
+
+            set
+            {
+                players = value;
+            }
+        }
+
         public bool IsLegal(int x, int y)  
         {
+            initDirections();
+            bool tmp = false; ;
             int pawnEnemy = isWhite ? (int)Colors.black : (int)Colors.white;
             bool result = false;
-            if (y - 1 >= 0 && board[x, y - 1] == pawnEnemy) //sud
+            if (y + 1 <8 && board[x, y + 1] == pawnEnemy) //sud
             {
-                result = playableAxisY(x, y - 1, pawnEnemy, 1);
+                tmp = playableAxisY(x, y + 1, pawnEnemy, 1);
+                directions["Sud"] = tmp;
+                result |= tmp;
             }
-            if(x - 1 >= 0 && y - 1 >= 0 && board[x - 1, y - 1] == pawnEnemy) //sud ouest
+            if (x - 1 >= 0 && y + 1 <8 && board[x - 1, y + 1] == pawnEnemy) //sud ouest
             {
-                Console.Write("-> sud ouest");
-                result = playableDiag1(x - 1, y - 1, pawnEnemy, 1);
+                tmp = playableDiag1(x - 1, y + 1, pawnEnemy, 1);
+                directions["SudOuest"] = tmp;
+                result |= tmp;
             }
             if (x - 1 >= 0 && board[x - 1, y] == pawnEnemy) // ouest
             {
-                result = playableAxisX(x - 1, y, pawnEnemy, -1);
+                tmp = playableAxisX(x - 1, y, pawnEnemy, -1);
+                directions["Ouest"] = tmp;
+                result |= tmp;
             }
-            if (x - 1 >= 0 && y + 1 <= 7 && board[x - 1, y + 1] == pawnEnemy) // nord ouest
+            if (x - 1 >= 0 && y - 1 >= 0 && board[x - 1, y - 1] == pawnEnemy) // nord ouest
             {
-                result = playableDiag2(x - 1, y + 1, pawnEnemy, -1);
+                tmp = playableDiag2(x - 1, y - 1, pawnEnemy, -1);
+                directions["NordOuest"] = tmp;
+                result |= tmp;
             }
-            if (y + 1 <= 7 && board[x, y + 1] == pawnEnemy) //nord
+            if (y - 1 >= 0 && board[x, y - 1] == pawnEnemy) //nord
             {
-                result = playableAxisY(x, y + 1, pawnEnemy, -1);
+                tmp = playableAxisY(x, y - 1, pawnEnemy, -1);
+                directions["Nord"] = tmp;
+                result |= tmp;
             }
-            if (x + 1 <= 7 && y + 1 <= 7 && board[x + 1, y + 1] == pawnEnemy) //nord est
+            if (x + 1 <8 && y - 1 >= 0 && board[x + 1, y - 1] == pawnEnemy) //nord est
             {
-                result = playableDiag1(x + 1, y + 1, pawnEnemy, -1); // c'est ici que ca passe pas!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                tmp = playableDiag1(x + 1, y - 1, pawnEnemy, -1);
+                directions["NordEst"] = tmp;
+                result |= tmp;
             }
-            if (x + 1 <= 7 && board[x + 1, y] == pawnEnemy) // est
+            if (x + 1 <8 && board[x + 1, y] == pawnEnemy) // est
             {
-                result = playableAxisX(x + 1, y, pawnEnemy, 1);
+                tmp = playableAxisX(x + 1, y, pawnEnemy, 1);
+                directions["Est"] = tmp;
+                result |= tmp;
             }
-            if (x + 1 <= 7 && y - 1 >= 0 && board[x + 1, y - 1] == pawnEnemy) //sud est
+            if (x + 1 <8 && y + 1 <8 && board[x + 1, y + 1] == pawnEnemy) //sud est
             {
-                result = playableDiag2(x + 1, y - 1, pawnEnemy, 1);
+                tmp = playableDiag2(x + 1, y + 1, pawnEnemy, 1);
+                directions["SudEst"] = tmp;
+                result |= tmp;
             }
             return result;          
         }
@@ -103,11 +160,12 @@ namespace OtHelloWorld
         {
             bool result = false;
             int i = y;
-            while((i>0 && i < 8) || result == true)
+            while(i>0 && i < 8)
             {
                 if(board[x,i] != pawnEnemy && board[x,i] != -1)
                 {
                     result = true;
+                    break;
                 }
                 i += direction;
             }
@@ -118,11 +176,12 @@ namespace OtHelloWorld
         {
             bool result = false;
             int i = x;
-            while ((i > 0 && i < 8) || result == true)
+            while (i >= 0 && i < 8) 
             {
                 if (board[i, y] != pawnEnemy && board[i, y] != -1)
                 {
                     result = true;
+                    break;
                 }
                 i += direction;
             }
@@ -134,11 +193,12 @@ namespace OtHelloWorld
             bool result = false;
             int i = x;
             int j = y;
-            while ((i > 0 && i < 8)||(j>0 && j<8)|| result == true)
+            while ((i > 0 && i < 8)&&(j>0 && j<8))
             {
                 if (board[i, j] != pawnEnemy && board[i, j] != -1)
                 {
                     result = true;
+                    break;
                 }
                 i -= direction;
                 j += direction;
@@ -151,11 +211,12 @@ namespace OtHelloWorld
             bool result = false;
             int i = x;
             int j = y;
-            while ((i > 0 && i < 8) || (j > 0 && j < 8) || result == true)
+            while ((i > 0 && i < 8)&& (j > 0 && j < 8))
             {
                 if (board[i, j] != pawnEnemy && board[i, j] != -1)
                 {
                     result = true;
+                    break;
                 }
                 i += direction;
                 j += direction;

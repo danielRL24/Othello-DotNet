@@ -82,9 +82,13 @@ namespace OtHelloWorld
         private void TileUC_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             TileUserControl tuc = (TileUserControl)sender;
-            tuc.PawnLbl.Background = this.game.GetPawnBrush();
-            tuc.IsEmpty = false;
-            this.game.play(tuc.Y, tuc.X);
+            if (tuc.IsEmpty && this.game.IsLegal(tuc.X, tuc.Y))
+            {
+                tuc.PawnLbl.Background = this.game.GetPawnBrush();
+                tuc.IsEmpty = false;
+                this.game.Play(tuc.X, tuc.Y);
+            }
+                
         }
 
         private void MenuItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
