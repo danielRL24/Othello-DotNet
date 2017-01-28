@@ -18,6 +18,9 @@ namespace OtHelloWars
 
         enum Colors { black = 0, white }
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public Game ()
         {
             board = new int[8, 8];
@@ -38,6 +41,13 @@ namespace OtHelloWars
             players[0].StartTimer();
         }
 
+        /// <summary>
+        /// Constructor used to load a game
+        /// </summary>
+        /// <param name="board">The board</param>
+        /// <param name="isWhite">Is white turn</param>
+        /// <param name="timePlayer0">First player time</param>
+        /// <param name="timePlayer1">Seconde player time</param>
         public Game(int[,] board, bool isWhite, int timePlayer0, int timePlayer1)
         {
             this.board = board;
@@ -53,6 +63,9 @@ namespace OtHelloWars
             
         }
 
+        /// <summary>
+        /// Initialize some attributes
+        /// </summary>
         private void init()
         {
             toReturn = new List<Tuple<int, int>>();
@@ -65,6 +78,11 @@ namespace OtHelloWars
             score();
         }
 
+        /// <summary>
+        /// Create a brush from a image
+        /// </summary>
+        /// <param name="filename">Image name</param>
+        /// <returns>Created brush</returns>
         private ImageBrush createBrushFromImage(String filename)
         {
             ImageBrush imgBrush = new ImageBrush();
@@ -73,11 +91,20 @@ namespace OtHelloWars
             return imgBrush;
         }
 
+        /// <summary>
+        /// Get the current player brush
+        /// </summary>
+        /// <returns>Current player brush</returns>
         public ImageBrush GetPawnBrush()
         {
             return isWhite ? pawnsColor[(int)Colors.white] : pawnsColor[(int)Colors.black];
         }
 
+        /// <summary>
+        /// Put the pawn of current player and move to next player
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void Play(int x, int y)
         {
             board[x, y] = isWhite ? (int)Colors.white : (int)Colors.black;
@@ -95,6 +122,9 @@ namespace OtHelloWars
             }
         }
 
+        /// <summary>
+        /// Calculate the score
+        /// </summary>
         private void score()
         {
             int scoreA = 0;
@@ -117,6 +147,10 @@ namespace OtHelloWars
             players[1].Score = scoreB;
         }
 
+        /// <summary>
+        /// Check if players can play
+        /// </summary>
+        /// <returns></returns>
         public bool CanPlay()
         {
             bool currentPlayer = false;
@@ -147,20 +181,36 @@ namespace OtHelloWars
             }
         }
 
+        /// <summary>
+        /// Get the current player pawn type
+        /// </summary>
+        /// <returns>Type</returns>
         public int CurrentPawnType()
         {
             return isWhite ? (int)Colors.white : (int)Colors.black;
         }
 
+        /// <summary>
+        /// Get the ennemy pawn type
+        /// </summary>
+        /// <returns></returns>
         public int PawnEnemyType()
         {
             return isWhite ? (int)Colors.black : (int)Colors.white;
         }
 
+        /// <summary>
+        /// Get the brush of specified color
+        /// </summary>
+        /// <param name="color">Specified color</param>
+        /// <returns>Brush</returns>
         public ImageBrush GetBrush(int color) {
             return pawnsColor[color];
         }
 
+        /// <summary>
+        /// List of players property
+        /// </summary>
         public List<Player> Players
         {
             get
@@ -174,6 +224,9 @@ namespace OtHelloWars
             }
         }
 
+        /// <summary>
+        /// Board property
+        /// </summary>
         public int[,] Board
         {
             get
@@ -187,6 +240,9 @@ namespace OtHelloWars
             }
         }
 
+        /// <summary>
+        /// If the current player is white property
+        /// </summary>
         public bool IsWhite
         {
             get
@@ -200,6 +256,13 @@ namespace OtHelloWars
             }
         }
 
+        /// <summary>
+        /// Check if the player is in a legal position
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="pawnEnemy"></param>
+        /// <returns>If position is legal</returns>
         public bool IsLegal(int x, int y, int pawnEnemy)  
         {
             bool tmp = false; ;
@@ -249,7 +312,15 @@ namespace OtHelloWars
             return result;          
         }
 
-        
+        /// <summary>
+        /// Check if the player can play in Y axis.
+        /// Store the opposite pawn position in a list.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="pawnEnemy"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         private bool playableAxisY(int x, int y,int pawnEnemy, int direction)
         {
             bool result = false;
@@ -272,6 +343,15 @@ namespace OtHelloWars
             return result; 
         }
 
+        /// <summary>
+        /// Check if the player can play in X axis.
+        /// Store the opposite pawn position in a list.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="pawnEnemy"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         private bool playableAxisX(int x, int y, int pawnEnemy, int direction)
         {
             bool result = false;
@@ -295,6 +375,15 @@ namespace OtHelloWars
             return result;
         }
 
+        /// <summary>
+        /// Check if the player can play in first diagonal.
+        /// Store the opposite pawn position in a list.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="pawnEnemy"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         private bool playableDiag1(int x, int y, int pawnEnemy, int direction)
         {
             bool result = false;
@@ -320,6 +409,15 @@ namespace OtHelloWars
             return result;
         }
 
+        /// <summary>
+        /// Check if the player can play in seconde diagonal.
+        /// Store the opposite pawn position in a list.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="pawnEnemy"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         private bool playableDiag2(int x, int y, int pawnEnemy, int direction)
         {
             bool result = false;
@@ -345,6 +443,10 @@ namespace OtHelloWars
             return result;
         }
 
+        /// <summary>
+        /// Change pawns
+        /// </summary>
+        /// <returns></returns>
         public List<Tuple<int,int>> ReturnPawn()
         {
             int pawnType = isWhite ? (int)Colors.white : (int)Colors.black;

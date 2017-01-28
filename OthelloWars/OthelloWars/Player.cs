@@ -15,7 +15,9 @@ namespace OtHelloWars
         private int time;
         private Timer timer;
         
-
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Player()
         {
             score = 0;
@@ -25,6 +27,9 @@ namespace OtHelloWars
             timer.Interval = 1000;
         }
 
+        /// <summary>
+        /// Score property
+        /// </summary>
         public int Score
         {
             get
@@ -39,6 +44,9 @@ namespace OtHelloWars
             }
         }
 
+        /// <summary>
+        /// Time property
+        /// </summary>
         public int Time
         {
             get
@@ -53,24 +61,42 @@ namespace OtHelloWars
             }
         }
 
+        /// <summary>
+        /// Called every seconds
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             time += 1;
             NotifyPropertyChanged("Time");
         }
 
+        /// <summary>
+        /// Start the timer
+        /// </summary>
         public void StartTimer()
         {
             timer.Enabled = true;
         }
 
+        /// <summary>
+        /// Stop the timer
+        /// </summary>
         public void StopTimer()
         {
             timer.Enabled = false;
         }
 
+        /// <summary>
+        /// Allow to notify a property change
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Allow to notify a property change
+        /// </summary>
+        /// <param name="nomPropriete"></param>
         public void NotifyPropertyChanged(string nomPropriete)
         {
             if (PropertyChanged != null)

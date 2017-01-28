@@ -25,23 +25,39 @@ namespace OtHelloWars
         private int y;
         private bool isEmpty;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TileUserControl()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Constructor with possibiliy to define position
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public TileUserControl(int x, int y) : this()
         {
             this.x = x;
             this.y = y;
             this.isEmpty = true;
-            //PawnLbl.Content = "("+(char)(col+65)+";"+row+")";
         }
 
+        /// <summary>
+        /// X property
+        /// </summary>
         public int X { get { return x; } }
 
+        /// <summary>
+        /// Y property
+        /// </summary>
         public int Y { get { return y; } }
 
+        /// <summary>
+        /// Is empty property
+        /// </summary>
         public bool IsEmpty { get { return this.isEmpty; } set { this.isEmpty = value; } }
     }
 }
