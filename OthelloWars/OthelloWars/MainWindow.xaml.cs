@@ -24,7 +24,10 @@ namespace OtHelloWars
             InitializeComponent();
             NewGame();
         }
-
+        
+        /// <summary>
+        /// Instanciate and initialize the game
+        /// </summary>
         private void NewGame()
         {
 
@@ -69,6 +72,9 @@ namespace OtHelloWars
             DataContext = game;
         }
 
+        /// <summary>
+        /// Refresh the grid and the display after a load game
+        /// </summary>
         private void refreshGrid()
         {
             for (int i = 0; i < 8; i++)
@@ -95,6 +101,12 @@ namespace OtHelloWars
             DataContext = game;
         }
 
+        /// <summary>
+        /// Verify if the player can do this move
+        /// when the mouse enter a compartment of the grid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TileUC_MouseEnter(object sender, MouseEventArgs e)
         {
             TileUserControl tuc = (TileUserControl)sender;
@@ -102,6 +114,12 @@ namespace OtHelloWars
                 tuc.PawnLbl.Background = this.game.GetPawnBrush();
         }
 
+        /// <summary>
+        /// Undo the display of the pawn if the player
+        /// live the compartment of the grid without playing the move
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TileUC_MouseLeave(object sender, MouseEventArgs e)
         {
             TileUserControl tuc = (TileUserControl)sender;
@@ -109,6 +127,13 @@ namespace OtHelloWars
                 tuc.PawnLbl.Background = null;
         }
 
+        /// <summary>
+        /// Place a pawn on the mouse click and verify
+        /// if there's more moves possible or if it's
+        /// the end of the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TileUC_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             TileUserControl tuc = (TileUserControl)sender;
@@ -145,6 +170,12 @@ namespace OtHelloWars
                 
         }
 
+        /// <summary>
+        /// Get an element of the grid
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         private UIElement getChildren(int x, int y)
         {
             foreach(UIElement child in BoardGrid.Children)
@@ -157,6 +188,9 @@ namespace OtHelloWars
             return null;
         }
 
+        /// <summary>
+        /// Save the game in a Json file
+        /// </summary>
         private void save()
         {
             ObjectToSerialize ots = new ObjectToSerialize();
@@ -175,6 +209,9 @@ namespace OtHelloWars
             }
         }
 
+        /// <summary>
+        /// Load the game from a Json file
+        /// </summary>
         private void load()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -190,16 +227,35 @@ namespace OtHelloWars
             }
         }
 
+        /// <summary>
+        /// Call the save method when the player
+        /// clicks on the save menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             save();
         }
 
+        /// <summary>
+        /// Call the load method when the player
+        /// clicks on the load menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             load();
         }
 
+        /// <summary>
+        /// Ask if the game needs to be saved
+        /// before the application shutdown on the click
+        /// of the quit menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messsageBoxResult = MessageBox.Show("Voulez-vous sauvergarder la partie en cours ?", "Quitter la partie", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -210,6 +266,12 @@ namespace OtHelloWars
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Ask if the player wants to play a new game
+        /// and reset the game on the click of the newgame menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messsageBoxResult = MessageBox.Show("Voulez-vous vraiment recommencer une partie ?", "Nouvelle partie", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -221,6 +283,10 @@ namespace OtHelloWars
         }
     }
 
+    /// <summary>
+    /// Class used to store the game parameters
+    /// and serialize it with Json.Net
+    /// </summary>
     public class ObjectToSerialize
     {
         private int timePlayer0;
