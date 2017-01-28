@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OtHelloWorld.Properties
+namespace OtHelloWars.Properties
 {
 
 

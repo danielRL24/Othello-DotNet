@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace OtHelloWorld
+namespace OtHelloWars
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

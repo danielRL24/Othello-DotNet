@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace OtHelloWorld
+namespace OtHelloWars
 {
     /// <summary>
     /// Interaction logic for TileUserControl.xaml
