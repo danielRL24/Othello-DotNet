@@ -28,20 +28,41 @@ namespace OtHelloWorld
                     board[i, j] = -1;
                 }
             }
-            toReturn = new List<Tuple<int,int>>();
+            
+            board[3, 3] = 0;
+            board[4, 4] = 0;
+            board[3, 4] = 1;
+            board[4, 3] = 1;
+            isWhite = false;
+            init();
+            players[0].StartTimer();
+        }
+
+        public Game(int[,] board, bool isWhite, int timePlayer0, int timePlayer1)
+        {
+            this.board = board;
+            this.isWhite = isWhite;
+            init();
+            this.players[0].Time = timePlayer0;
+            this.players[1].Time = timePlayer1;
+            if (isWhite)
+                players[1].StartTimer();
+            else
+                players[0].StartTimer();
+
+            
+        }
+
+        private void init()
+        {
+            toReturn = new List<Tuple<int, int>>();
             pawnsColor = new List<ImageBrush>();
             pawnsColor.Add(createBrushFromImage("blackPawn.png"));
             pawnsColor.Add(createBrushFromImage("whitePawn.png"));
             players = new List<Player>();
             players.Add(new Player());
             players.Add(new Player());
-            board[3, 3] = 0;
-            board[4, 4] = 0;
-            board[3, 4] = 1;
-            board[4, 3] = 1;
-            isWhite = false;
             score();
-            players[0].StartTimer();
         }
 
         private ImageBrush createBrushFromImage(String filename)
@@ -163,6 +184,19 @@ namespace OtHelloWorld
             set
             {
                 board = value;
+            }
+        }
+
+        public bool IsWhite
+        {
+            get
+            {
+                return isWhite;
+            }
+
+            set
+            {
+                isWhite = value;
             }
         }
 

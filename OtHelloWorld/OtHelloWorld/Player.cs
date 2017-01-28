@@ -19,6 +19,7 @@ namespace OtHelloWorld
         public Player()
         {
             score = 0;
+            time = 0;
             timer = new Timer();
             timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             timer.Interval = 1000;
@@ -48,6 +49,7 @@ namespace OtHelloWorld
             set
             {
                 time = value;
+                NotifyPropertyChanged("Time");
             }
         }
 

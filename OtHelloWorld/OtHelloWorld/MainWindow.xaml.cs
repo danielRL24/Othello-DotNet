@@ -69,6 +69,32 @@ namespace OtHelloWorld
             DataContext = game;
         }
 
+        private void refreshGrid()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    TileUserControl t = (TileUserControl)getChildren(i, j);
+                    if(this.game.Board[i,j] == 0)
+                    {
+                        t.PawnLbl.Background = this.game.GetBrush(0);
+                        t.IsEmpty = false;
+                    } else if (this.game.Board[i,j] == 1)
+                    {
+                        t.PawnLbl.Background = this.game.GetBrush(1);
+                        t.IsEmpty = false;
+                    } else
+                    {
+                        t.PawnLbl.Background = null;
+                        t.IsEmpty = true;
+                    }
+                }
+            }
+
+            DataContext = game;
+        }
+
         private void TileUC_MouseEnter(object sender, MouseEventArgs e)
         {
             TileUserControl tuc = (TileUserControl)sender;
@@ -118,13 +144,18 @@ namespace OtHelloWorld
 
         private void save()
         {
+            ObjectToSerialize ots = new ObjectToSerialize();
+            ots.Board = this.game.Board;
+            ots.IsWhite = this.game.IsWhite;
+            ots.TimePlayer0 = this.game.Players[0].Time;
+            ots.TimePlayer1 = this.game.Players[1].Time;
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Json|*.json|Text|*.txt";
             saveFileDialog.ShowDialog();
 
             if (saveFileDialog.FileName != "")
             {
-                string output = JsonConvert.SerializeObject(this.game);
+                string output = JsonConvert.SerializeObject(ots);
                 System.IO.File.WriteAllText(saveFileDialog.FileName, output);
             }
         }
@@ -137,9 +168,11 @@ namespace OtHelloWorld
 
             if (openFileDialog.FileName != "")
             {
-                this.game = new OtHelloWorld.Game();
                 string input = System.IO.File.ReadAllText(openFileDialog.FileName);
-                this.game = JsonConvert.DeserializeObject<Game>(input);
+                ObjectToSerialize ots= JsonConvert.DeserializeObject<ObjectToSerialize>(input);
+                this.game = new Game(ots.Board, ots.IsWhite, ots.TimePlayer0, ots.TimePlayer1);
+                //Console.WriteLine(this.game.Players.Count);
+                refreshGrid();
             }
         }
 
@@ -152,10 +185,85 @@ namespace OtHelloWorld
         {
             load();
         }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messsageBoxResult = MessageBox.Show("Voulez-vous sauvergarder la partie en cours ?", "Quitter la partie", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (messsageBoxResult == MessageBoxResult.Yes)
+            {
+                save();
+            }
+            Application.Current.Shutdown();
+        }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messsageBoxResult = MessageBox.Show("Voulez-vous vraiment recommencer une partie?", "Nouvelle partie", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (messsageBoxResult == MessageBoxResult.Yes)
+            {
+                BoardGrid.Children.Clear();
+                NewGame();
+            }
+        }
     }
 
-    class ObjectToSerialize
+    public class ObjectToSerialize
     {
-        
+        private int timePlayer0;
+        private int timePlayer1;
+        private bool isWhite;
+        private int[,] board;
+
+        public bool IsWhite
+        {
+            get
+            {
+                return isWhite;
+            }
+
+            set
+            {
+                isWhite = value;
+            }
+        }
+
+        public int[,] Board
+        {
+            get
+            {
+                return board;
+            }
+
+            set
+            {
+                board = value;
+            }
+        }
+
+        public int TimePlayer0
+        {
+            get
+            {
+                return timePlayer0;
+            }
+
+            set
+            {
+                timePlayer0 = value;
+            }
+        }
+
+        public int TimePlayer1
+        {
+            get
+            {
+                return timePlayer1;
+            }
+
+            set
+            {
+                timePlayer1 = value;
+            }
+        }
     }
 }
