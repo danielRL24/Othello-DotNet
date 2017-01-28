@@ -68,7 +68,7 @@ namespace OtHelloWorld
         private void TileUC_MouseEnter(object sender, MouseEventArgs e)
         {
             TileUserControl tuc = (TileUserControl)sender;
-            if (tuc.IsEmpty && this.game.IsLegal(tuc.X, tuc.Y))
+            if (tuc.IsEmpty && this.game.IsLegal(tuc.X, tuc.Y, this.game.PawnEnemyType()))
                 tuc.PawnLbl.Background = this.game.GetPawnBrush();
         }
 
@@ -82,7 +82,7 @@ namespace OtHelloWorld
         private void TileUC_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             TileUserControl tuc = (TileUserControl)sender;
-            if (tuc.IsEmpty && this.game.IsLegal(tuc.X, tuc.Y))
+            if (tuc.IsEmpty && this.game.IsLegal(tuc.X, tuc.Y, this.game.PawnEnemyType()))
             {
                 tuc.PawnLbl.Background = this.game.GetPawnBrush();
                 tuc.IsEmpty = false;
@@ -92,6 +92,10 @@ namespace OtHelloWorld
                     t.PawnLbl.Background = this.game.GetPawnBrush();
                 }
                 this.game.Play(tuc.X, tuc.Y);
+                if(!this.game.CanPlay())
+                {
+                    MessageBox.Show("Fin du jeu!", "endGame", MessageBoxButton.OK);
+                }
             }
                 
         }
