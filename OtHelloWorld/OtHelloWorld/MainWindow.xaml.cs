@@ -86,9 +86,26 @@ namespace OtHelloWorld
             {
                 tuc.PawnLbl.Background = this.game.GetPawnBrush();
                 tuc.IsEmpty = false;
+                foreach(Tuple<int,int> tuple in this.game.ReturnPawn())
+                {
+                    TileUserControl t = (TileUserControl)getChildren(tuple.Item1, tuple.Item2);
+                    t.PawnLbl.Background = this.game.GetPawnBrush();
+                }
                 this.game.Play(tuc.X, tuc.Y);
             }
                 
+        }
+
+        private UIElement getChildren(int x, int y)
+        {
+            foreach(UIElement child in BoardGrid.Children)
+            {
+                if(Grid.GetRow(child) == y && Grid.GetColumn(child) == x)
+                {
+                    return child;
+                }
+            }
+            return null;
         }
 
         private void MenuItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

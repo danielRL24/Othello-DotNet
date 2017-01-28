@@ -15,9 +15,9 @@ namespace OtHelloWorld
         private bool isWhite;
         private int[,] pawnToReturn;
         private List<Player> players;
+        private List<Tuple<int,int>> toReturn;
 
         enum Colors { black = 0, white }
-        Dictionary<String, bool> directions;
 
         public Game ()
         {
@@ -29,14 +29,7 @@ namespace OtHelloWorld
                     board[i, j] = -1;
                 }
             }
-            directions.Add("Sud", true);
-            directions.Add("SudOuest", true);
-            directions.Add("Ouest", true);
-            directions.Add("NordOuest", true);
-            directions.Add("Nord", true);
-            directions.Add("NordEst", true);
-            directions.Add("Est", true);
-            directions.Add("SudEst", true);
+            toReturn = new List<Tuple<int,int>>();
             pawnsColor = new List<ImageBrush>();
             pawnsColor.Add(createBrushFromImage("blackPawn.png"));
             pawnsColor.Add(createBrushFromImage("whitePawn.png"));
@@ -48,18 +41,6 @@ namespace OtHelloWorld
             board[3, 4] = 1;
             board[4, 3] = 1;
             isWhite = false;
-        }
-
-        private void initDirections()
-        {
-            directions["Sud"] = true;
-            directions["SudOuest"] = true;
-            directions["Ouest"] = true;
-            directions["NordOuest"] = true;
-            directions["Nord"] = true;
-            directions["NordEst"] = true;
-            directions["Est"] = true;
-            directions["SudEst"] = true;
         }
 
         private ImageBrush createBrushFromImage(String filename)
@@ -100,56 +81,48 @@ namespace OtHelloWorld
 
         public bool IsLegal(int x, int y)  
         {
-            initDirections();
             bool tmp = false; ;
+            toReturn = new List<Tuple<int, int>>();
             int pawnEnemy = isWhite ? (int)Colors.black : (int)Colors.white;
             bool result = false;
             if (y + 1 <8 && board[x, y + 1] == pawnEnemy) //sud
             {
                 tmp = playableAxisY(x, y + 1, pawnEnemy, 1);
-                directions["Sud"] = tmp;
                 result |= tmp;
             }
             if (x - 1 >= 0 && y + 1 <8 && board[x - 1, y + 1] == pawnEnemy) //sud ouest
             {
                 tmp = playableDiag1(x - 1, y + 1, pawnEnemy, 1);
-                directions["SudOuest"] = tmp;
                 result |= tmp;
             }
             if (x - 1 >= 0 && board[x - 1, y] == pawnEnemy) // ouest
             {
                 tmp = playableAxisX(x - 1, y, pawnEnemy, -1);
-                directions["Ouest"] = tmp;
                 result |= tmp;
             }
             if (x - 1 >= 0 && y - 1 >= 0 && board[x - 1, y - 1] == pawnEnemy) // nord ouest
             {
                 tmp = playableDiag2(x - 1, y - 1, pawnEnemy, -1);
-                directions["NordOuest"] = tmp;
                 result |= tmp;
             }
             if (y - 1 >= 0 && board[x, y - 1] == pawnEnemy) //nord
             {
                 tmp = playableAxisY(x, y - 1, pawnEnemy, -1);
-                directions["Nord"] = tmp;
                 result |= tmp;
             }
             if (x + 1 <8 && y - 1 >= 0 && board[x + 1, y - 1] == pawnEnemy) //nord est
             {
                 tmp = playableDiag1(x + 1, y - 1, pawnEnemy, -1);
-                directions["NordEst"] = tmp;
                 result |= tmp;
             }
             if (x + 1 <8 && board[x + 1, y] == pawnEnemy) // est
             {
                 tmp = playableAxisX(x + 1, y, pawnEnemy, 1);
-                directions["Est"] = tmp;
                 result |= tmp;
             }
             if (x + 1 <8 && y + 1 <8 && board[x + 1, y + 1] == pawnEnemy) //sud est
             {
                 tmp = playableDiag2(x + 1, y + 1, pawnEnemy, 1);
-                directions["SudEst"] = tmp;
                 result |= tmp;
             }
             return result;          
@@ -160,8 +133,10 @@ namespace OtHelloWorld
         {
             bool result = false;
             int i = y;
+            List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             while(i>0 && i < 8)
             {
+                tmp.Add(new Tuple<int, int>(x,i));
                 if(board[x,i] != pawnEnemy && board[x,i] != -1)
                 {
                     result = true;
@@ -169,21 +144,32 @@ namespace OtHelloWorld
                 }
                 i += direction;
             }
+            if(result == true)
+            {
+               toReturn = toReturn.Concat(tmp).ToList();
+            }
             return result; 
         }
 
         private bool playableAxisX(int x, int y, int pawnEnemy, int direction)
         {
             bool result = false;
+            List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int i = x;
             while (i >= 0 && i < 8) 
             {
+                tmp.Add(new Tuple<int, int>(i, y));
+
                 if (board[i, y] != pawnEnemy && board[i, y] != -1)
                 {
                     result = true;
                     break;
                 }
                 i += direction;
+            }
+            if (result == true)
+            {
+                toReturn = toReturn.Concat(tmp).ToList();
             }
             return result;
         }
@@ -192,9 +178,12 @@ namespace OtHelloWorld
         {
             bool result = false;
             int i = x;
+            List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int j = y;
             while ((i > 0 && i < 8)&&(j>0 && j<8))
             {
+                tmp.Add(new Tuple<int, int>(i, j));
+
                 if (board[i, j] != pawnEnemy && board[i, j] != -1)
                 {
                     result = true;
@@ -203,6 +192,10 @@ namespace OtHelloWorld
                 i -= direction;
                 j += direction;
             }
+            if (result == true)
+            {
+                toReturn = toReturn.Concat(tmp).ToList();
+            }
             return result;
         }
 
@@ -210,9 +203,12 @@ namespace OtHelloWorld
         {
             bool result = false;
             int i = x;
+            List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int j = y;
             while ((i > 0 && i < 8)&& (j > 0 && j < 8))
             {
+                tmp.Add(new Tuple<int, int>(i, j));
+
                 if (board[i, j] != pawnEnemy && board[i, j] != -1)
                 {
                     result = true;
@@ -221,12 +217,21 @@ namespace OtHelloWorld
                 i += direction;
                 j += direction;
             }
+            if (result == true)
+            {
+                toReturn = toReturn.Concat(tmp).ToList();
+            }
             return result;
         }
 
-        public void returnPawn()
+        public List<Tuple<int,int>> ReturnPawn()
         {
-
+            int pawnType = isWhite ? (int)Colors.white : (int)Colors.black;
+            foreach (Tuple<int,int> tuple in toReturn)
+            {
+                board[tuple.Item1, tuple.Item2] = pawnType;
+            }
+            return toReturn;
         }
 
         
