@@ -124,7 +124,22 @@ namespace OtHelloWorld
                 this.game.Play(tuc.X, tuc.Y);
                 if(!this.game.CanPlay())
                 {
-                    MessageBox.Show("Fin du jeu!", "endGame", MessageBoxButton.OK);
+                    MessageBoxResult messageBoxResult = MessageBox.Show("Joueur noir : " + this.game.Players[0].Score + " points\nJoueur blanc : " + this.game.Players[1].Score + " points", "Fin de la partie", MessageBoxButton.OK);
+                    if(messageBoxResult == MessageBoxResult.OK)
+                    {
+                        MessageBoxResult messageBoxResult2 = MessageBox.Show("Voulez-vous recommencer une partie ?", "Nouvelle partie", MessageBoxButton.YesNo);
+                        if(messageBoxResult2 == MessageBoxResult.Yes)
+                        {
+                            BoardGrid.Children.Clear();
+                            NewGame();
+                        } else
+                        {
+                            Application.Current.Shutdown();
+                        }
+                    } else
+                    {
+                        Application.Current.Shutdown();
+                    }
                 }
             }
                 
@@ -171,7 +186,6 @@ namespace OtHelloWorld
                 string input = System.IO.File.ReadAllText(openFileDialog.FileName);
                 ObjectToSerialize ots= JsonConvert.DeserializeObject<ObjectToSerialize>(input);
                 this.game = new Game(ots.Board, ots.IsWhite, ots.TimePlayer0, ots.TimePlayer1);
-                //Console.WriteLine(this.game.Players.Count);
                 refreshGrid();
             }
         }
@@ -198,7 +212,7 @@ namespace OtHelloWorld
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messsageBoxResult = MessageBox.Show("Voulez-vous vraiment recommencer une partie?", "Nouvelle partie", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult messsageBoxResult = MessageBox.Show("Voulez-vous vraiment recommencer une partie ?", "Nouvelle partie", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (messsageBoxResult == MessageBoxResult.Yes)
             {
                 BoardGrid.Children.Clear();
