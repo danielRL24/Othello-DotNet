@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Contexts;
 using System.Windows;
@@ -114,24 +116,46 @@ namespace OtHelloWorld
             return null;
         }
 
-        private void MenuItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void save()
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Json|*.json|Text|*.txt";
+            saveFileDialog.ShowDialog();
 
+            if (saveFileDialog.FileName != "")
+            {
+                string output = JsonConvert.SerializeObject(this.game);
+                System.IO.File.WriteAllText(saveFileDialog.FileName, output);
+            }
         }
 
-        private void MenuItem_MouseLeftButtonUp_1(object sender, MouseButtonEventArgs e)
+        private void load()
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Json|*.json|Text|*.txt";
+            openFileDialog.ShowDialog();
 
+            if (openFileDialog.FileName != "")
+            {
+                this.game = new OtHelloWorld.Game();
+                string input = System.IO.File.ReadAllText(openFileDialog.FileName);
+                this.game = JsonConvert.DeserializeObject<Game>(input);
+            }
         }
 
-        private void MenuItem_MouseLeftButtonUp_2(object sender, MouseButtonEventArgs e)
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            save();
         }
 
-        private void MenuItem_MouseLeftButtonUp_3(object sender, MouseButtonEventArgs e)
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-
+            load();
         }
+    }
+
+    class ObjectToSerialize
+    {
+        
     }
 }

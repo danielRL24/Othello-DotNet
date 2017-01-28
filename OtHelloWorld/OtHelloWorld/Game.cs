@@ -13,7 +13,6 @@ namespace OtHelloWorld
         private int[,] board;
         private List<ImageBrush> pawnsColor;
         private bool isWhite;
-        private int[,] pawnToReturn;
         private List<Player> players;
         private List<Tuple<int,int>> toReturn;
 
@@ -151,6 +150,19 @@ namespace OtHelloWorld
             set
             {
                 players = value;
+            }
+        }
+
+        public int[,] Board
+        {
+            get
+            {
+                return board;
+            }
+
+            set
+            {
+                board = value;
             }
         }
 
