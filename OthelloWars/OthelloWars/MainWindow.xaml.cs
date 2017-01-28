@@ -124,7 +124,7 @@ namespace OtHelloWars
                 this.game.Play(tuc.X, tuc.Y);
                 if(!this.game.CanPlay())
                 {
-                    MessageBoxResult messageBoxResult = MessageBox.Show("Joueur noir : " + this.game.Players[0].Score + " points\nJoueur blanc : " + this.game.Players[1].Score + " points", "Fin de la partie", MessageBoxButton.OK);
+                    MessageBoxResult messageBoxResult = MessageBox.Show("Vader : " + this.game.Players[0].Score + " points\nLuke : " + this.game.Players[1].Score + " points", "Fin de la partie", MessageBoxButton.OK);
                     if(messageBoxResult == MessageBoxResult.OK)
                     {
                         MessageBoxResult messageBoxResult2 = MessageBox.Show("Voulez-vous recommencer une partie ?", "Nouvelle partie", MessageBoxButton.YesNo);

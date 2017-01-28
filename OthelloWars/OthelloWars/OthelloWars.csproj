@@ -100,6 +100,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="fonts\Starjedi.ttf" />
+    <Resource Include="fonts\Starjhol.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -135,6 +137,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="images\icon.ico" />
     <Content Include="sounds\ImperialMarch.wav" />
   </ItemGroup>
   <ItemGroup />
