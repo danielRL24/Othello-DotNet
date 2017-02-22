@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OthelloWars", "OthelloWars\OthelloWars.csproj", "{0116B9F9-AAA4-4A3D-B033-59F6B10C71B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OthelloWars_IA", "OthelloWars_IA\OthelloWars_IA.csproj", "{37DDFFBC-EE91-4FCC-91BA-A4BD8BFB549E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0116B9F9-AAA4-4A3D-B033-59F6B10C71B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0116B9F9-AAA4-4A3D-B033-59F6B10C71B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0116B9F9-AAA4-4A3D-B033-59F6B10C71B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37DDFFBC-EE91-4FCC-91BA-A4BD8BFB549E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37DDFFBC-EE91-4FCC-91BA-A4BD8BFB549E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37DDFFBC-EE91-4FCC-91BA-A4BD8BFB549E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37DDFFBC-EE91-4FCC-91BA-A4BD8BFB549E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

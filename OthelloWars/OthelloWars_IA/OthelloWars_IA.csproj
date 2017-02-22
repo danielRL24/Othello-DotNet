@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0116B9F9-AAA4-4A3D-B033-59F6B10C71B0}</ProjectGuid>
+    <ProjectGuid>{37DDFFBC-EE91-4FCC-91BA-A4BD8BFB549E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OthelloWars_IA</RootNamespace>

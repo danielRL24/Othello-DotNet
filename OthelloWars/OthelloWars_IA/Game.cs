@@ -148,40 +148,6 @@ namespace OtHelloWars_IA
         }
 
         /// <summary>
-        /// Check if players can play
-        /// </summary>
-        /// <returns></returns>
-        public bool CanPlay()
-        {
-            bool currentPlayer = false;
-            bool nextPlayer = false;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (board[i, j] == -1)
-                    {
-                        currentPlayer |= IsLegal(i, j, PawnEnemyType());
-                        nextPlayer |= IsLegal(i, j, CurrentPawnType());
-                    }
-                }
-            }
-            if (currentPlayer)
-            {     
-                return true;
-            }
-            else if (nextPlayer)
-            {
-                isWhite = !isWhite;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Get the current player pawn type
         /// </summary>
         /// <returns>Type</returns>
@@ -521,7 +487,7 @@ namespace OtHelloWars_IA
         private Tuple<int, Tuple<int, int>> AlphaBeta(int[,] game, int level, bool whiteTurn, int parentValue)
         {
             int minOrMax = whiteTurn ? 1 : -1;
-            if(level == 0 || )
+            if(level == 0 || Final(whiteTurn))
             {
                 // TODO
             }
@@ -568,6 +534,23 @@ namespace OtHelloWars_IA
             newBoard[op.Item1, op.Item2] = whiteTurn ? 1 : 0 ;
 
             return newBoard;
+        }
+
+        private bool Final(bool whiteTurn)
+        {
+            bool currentPlayer = false;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (board[i, j] == -1)
+                    {
+                        currentPlayer |= IsLegal(i, j, whiteTurn ? (int)Colors.black : (int)Colors.white);
+                    }
+                }
+            }
+
+            return currentPlayer;
         }
     }
 }
