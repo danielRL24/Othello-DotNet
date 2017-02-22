@@ -10,6 +10,7 @@ namespace OtHelloWars_IA
 {
     class Game : IPlayable.IPlayable
     {
+        private string teamName;
         private int[,] board;
         private List<ImageBrush> pawnsColor;
         private bool isWhite;
@@ -66,6 +67,7 @@ namespace OtHelloWars_IA
         /// </summary>
         private void init()
         {
+            teamName = "02: Nadalin_Rodrigues";
             toReturn = new List<Tuple<int, int>>();
             pawnsColor = new List<ImageBrush>();
             pawnsColor.Add(createBrushFromImage("blackPawn.png"));
@@ -267,6 +269,13 @@ namespace OtHelloWars_IA
             toReturn = new List<Tuple<int, int>>();
             
             bool result = false;
+
+            // If the case is not empty --> is not legal
+            if(board[x, y] != -1)
+            {
+                return false;
+            }
+
             if (y + 1 <8 && board[x, y + 1] == pawnEnemy) //sud
             {
                 tmp = playableAxisY(x, y + 1, pawnEnemy, 1);
@@ -455,39 +464,110 @@ namespace OtHelloWars_IA
             return toReturn;
         }
 
+
+        /// 
+        /// INTERFACE IPlayable
+        ///
+
         public string GetName()
         {
-            throw new NotImplementedException();
+            return teamName;
         }
 
         public bool IsPlayable(int column, int line, bool isWhite)
         {
-            throw new NotImplementedException();
+            this.isWhite = isWhite;
+            return IsLegal(column, line, isWhite ? (int)Colors.black : (int)Colors.white);
         }
 
         public bool PlayMove(int column, int line, bool isWhite)
         {
-            throw new NotImplementedException();
+            this.isWhite = isWhite;
+            bool result = IsLegal(column, line, isWhite ? (int)Colors.black : (int)Colors.white);
+            if (result)
+            {
+                ReturnPawn();
+                Play(column, line);
+            }
+
+            return result;
         }
 
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
+            // TODO ALPHA-BETA
             throw new NotImplementedException();
         }
 
         public int[,] GetBoard()
         {
-            throw new NotImplementedException();
+            return board;
         }
 
         public int GetWhiteScore()
         {
-            throw new NotImplementedException();
+            return players[0].Score;
         }
 
         public int GetBlackScore()
         {
-            throw new NotImplementedException();
+            return players[1].Score;
+        }
+
+        ///
+        /// IA
+        ///
+
+        private Tuple<int, Tuple<int, int>> AlphaBeta(int[,] game, int level, bool whiteTurn, int parentValue)
+        {
+            int minOrMax = whiteTurn ? 1 : -1;
+            if(level == 0 || )
+            {
+                // TODO
+            }
+            int optVal = minOrMax * -1;
+            Tuple<int, int> optOp = null;
+
+            foreach(Tuple<int, int> op in ValideOp(whiteTurn))
+            {
+                int[,] newBoard = ApplyOp(op, whiteTurn);
+                Tuple<int, Tuple<int, int>> result = AlphaBeta(newBoard, level - 1, !whiteTurn, optVal);
+                if (result.Item1 * minOrMax > optVal * minOrMax)
+                {
+                    optVal = result.Item1;
+                    optOp = op;
+                    if(optVal * minOrMax > parentValue * minOrMax)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return new Tuple<int, Tuple<int, int>>(optVal, optOp);
+
+        }
+
+        private List<Tuple<int, int>> ValideOp(bool whiteTurn)
+        {
+            List<Tuple<int, int>> list = new List<Tuple<int, int>>();
+            for(int i=0; i < 8; i++)
+            {
+                if(IsLegal(i, j, whiteTurn ? (int)Colors.black : (int)Colors.white))
+                {
+                    list.Add(new Tuple<int, int>(i, j));
+                }
+            }
+
+            return list;
+        }
+
+        private int[,] ApplyOp(Tuple<int, int> op, bool whiteTurn)
+        {
+            int[,] newBoard = board;
+
+            newBoard[op.Item1, op.Item2] = whiteTurn ? 1 : 0 ;
+
+            return newBoard;
         }
     }
 }
