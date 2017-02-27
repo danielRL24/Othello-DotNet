@@ -473,8 +473,8 @@ namespace OtHelloWars_IA
         {
             // TODO ALPHA-BETA
             board = game;
-            AlphaBeta(board, level, whiteTurn, 0);
-            throw new NotImplementedException();
+            Tuple<int, Tuple<int, int>> result = AlphaBeta(board, level, whiteTurn, 0);
+            return result.Item2;
         }
 
         public int[,] GetBoard()
@@ -501,7 +501,6 @@ namespace OtHelloWars_IA
             int minOrMax = whiteTurn ? 1 : -1;
             if(level == 0 || Final(whiteTurn))
             {
-                // TODO
                 return new Tuple<int, Tuple<int, int>>(Eval(whiteTurn), null);
             }
             int optVal = minOrMax * -1;
