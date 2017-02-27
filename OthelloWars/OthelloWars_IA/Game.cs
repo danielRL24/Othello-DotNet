@@ -19,6 +19,16 @@ namespace OtHelloWars_IA
 
         enum Colors { black = 0, white }
 
+        private int[,] boardScore = new int[,] { {120, -20, 20, 5, 5, 20, -20, 120},
+                                                 {-20, -40, -5, -5, -5, -5, -40, -20 },
+                                                 { 20, -5, 15, 3, 3, 15, -5, 20},
+                                                 { 5, -5, 3, 3, 3, 3, -5, 5},
+                                                 { 5, -5, 3, 3, 3, 3, -5, 5},
+                                                 { 20, -5, 15, 3, 3, 15, -5, 20},
+                                                 {-20, -40, -5, -5, -5, -5, -40, -20 },
+                                                 {120, -20, 20, 5, 5, 20, -20, 120}};
+
+
         /// <summary>
         /// Default Constructor
         /// </summary>
@@ -462,6 +472,8 @@ namespace OtHelloWars_IA
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
             // TODO ALPHA-BETA
+            board = game;
+            AlphaBeta(board, level, whiteTurn, 0);
             throw new NotImplementedException();
         }
 
@@ -490,6 +502,7 @@ namespace OtHelloWars_IA
             if(level == 0 || Final(whiteTurn))
             {
                 // TODO
+                return new Tuple<int, Tuple<int, int>>(Eval(whiteTurn), null);
             }
             int optVal = minOrMax * -1;
             Tuple<int, int> optOp = null;
@@ -518,12 +531,14 @@ namespace OtHelloWars_IA
             List<Tuple<int, int>> list = new List<Tuple<int, int>>();
             for(int i=0; i < 8; i++)
             {
-                if(IsLegal(i, j, whiteTurn ? (int)Colors.black : (int)Colors.white))
+                for(int j=0; j < 8; j++)
                 {
-                    list.Add(new Tuple<int, int>(i, j));
+                     if(IsLegal(i, j, whiteTurn ? (int)Colors.black : (int)Colors.white))
+                     {
+                        list.Add(new Tuple<int, int>(i, j));
+                     }
                 }
             }
-
             return list;
         }
 
@@ -552,5 +567,54 @@ namespace OtHelloWars_IA
 
             return currentPlayer;
         }
-    }
+
+        private int getNbMoves(bool whiteTurn)
+        {
+            int moves = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (IsLegal(i, j, whiteTurn ? (int)Colors.black : (int)Colors.white))
+                    {
+                        moves++;
+                    }
+                }
+            }
+            return moves;
+        }
+
+        private int Eval(bool whiteTurn)
+        {
+            int pieceNumber = whiteTurn ? GetWhiteScore() : GetBlackScore();
+            int moveNumber = getNbMoves(whiteTurn);
+
+            if(GetBlackScore() + GetWhiteScore() < 32)
+            {
+                return 2 * moveNumber + getBoardScore(whiteTurn);
+            }
+            else
+            {
+                return 2 * pieceNumber + moveNumber + 3 * getBoardScore(whiteTurn);
+            }
+
+        }
+
+        private int getBoardScore(bool whiteTurn)
+        {
+            int score = 0;
+            int player = whiteTurn ? (int)Colors.white : (int)Colors.black;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (board[i, j] == player)
+                    {
+                        score += boardScore[i, j];
+                    }
+                }
+            }
+            return score;
+        }
+    }  
 }
