@@ -269,6 +269,13 @@ namespace OtHelloWars
             toReturn = new List<Tuple<int, int>>();
             
             bool result = false;
+
+            // If the case is not empty --> is not legal
+            if (board[x, y] != -1)
+            {
+                return false;
+            }
+
             if (y + 1 <8 && board[x, y + 1] == pawnEnemy) //sud
             {
                 tmp = playableAxisY(x, y + 1, pawnEnemy, 1);
