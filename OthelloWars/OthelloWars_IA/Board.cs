@@ -11,7 +11,6 @@ namespace OtHelloWars_IA
         private bool isWhite;
         private List<Player> players;
         private List<Tuple<int,int>> toReturn;
-        private bool ISLEGAL;
 
         enum Colors { white = 0, black }
 
@@ -47,7 +46,6 @@ namespace OtHelloWars_IA
             init();
             players[0].StartTimer();
 
-            ISLEGAL = false;
         }
 
         /// <summary>
@@ -117,11 +115,11 @@ namespace OtHelloWars_IA
             {
                 for(int j=0; j<8; j++)
                 {
-                    if(game[i,j] == 0)
+                    if(game[i,j] == (int)Colors.white)
                     {
                         scoreA++;
                     }
-                    else if(game[i,j] == 1)
+                    else if(game[i,j] == (int)Colors.black)
                     {
                         scoreB++;
                     }
@@ -206,7 +204,7 @@ namespace OtHelloWars_IA
                 tmp = playableAxisY(game, x, y + 1, pawnEnemy, 1);
                 result |= tmp;
             }
-            if (x - 1 >= 0 && y + 1 <8 && game[x - 1, y + 1] == pawnEnemy) //sud ouest
+            if ((x - 1 >= 0 && y + 1 <8) && game[x - 1, y + 1] == pawnEnemy) //sud ouest
             {
                 tmp = playableDiag1(game, x - 1, y + 1, pawnEnemy, 1);
                 result |= tmp;
@@ -216,7 +214,7 @@ namespace OtHelloWars_IA
                 tmp = playableAxisX(game, x - 1, y, pawnEnemy, -1);
                 result |= tmp;
             }
-            if (x - 1 >= 0 && y - 1 >= 0 && game[x - 1, y - 1] == pawnEnemy) // nord ouest
+            if ((x - 1 >= 0 && y - 1 >= 0) && game[x - 1, y - 1] == pawnEnemy) // nord ouest
             {
                 tmp = playableDiag2(game, x - 1, y - 1, pawnEnemy, -1);
                 result |= tmp;
@@ -226,7 +224,7 @@ namespace OtHelloWars_IA
                 tmp = playableAxisY(game, x, y - 1, pawnEnemy, -1);
                 result |= tmp;
             }
-            if (x + 1 <8 && y - 1 >= 0 && game[x + 1, y - 1] == pawnEnemy) //nord est
+            if ((x + 1 <8 && y - 1 >= 0) && game[x + 1, y - 1] == pawnEnemy) //nord est
             {
                 tmp = playableDiag1(game, x + 1, y - 1, pawnEnemy, -1);
                 result |= tmp;
@@ -236,14 +234,12 @@ namespace OtHelloWars_IA
                 tmp = playableAxisX(game, x + 1, y, pawnEnemy, 1);
                 result |= tmp;
             }
-            if (x + 1 <8 && y + 1 <8 && game[x + 1, y + 1] == pawnEnemy) //sud est
+            if ((x + 1 <8 && y + 1 <8) && game[x + 1, y + 1] == pawnEnemy) //sud est
             {
                 tmp = playableDiag2(game, x + 1, y + 1, pawnEnemy, 1);
                 result |= tmp;
             }
-
-            ISLEGAL = result;
-
+           
             return result;          
         }
 
@@ -261,7 +257,7 @@ namespace OtHelloWars_IA
             bool result = false;
             int i = y;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
-            while(i>0 && i < 8)
+            while(i>=0 && i < 8)
             {
                 tmp.Add(new Tuple<int, int>(x,i));
                 if(game[x,i] != pawnEnemy)
@@ -325,7 +321,7 @@ namespace OtHelloWars_IA
             int i = x;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int j = y;
-            while ((i > 0 && i < 8)&&(j>0 && j<8))
+            while ((i >= 0 && i < 8)&&(j>0 && j<8))
             {
                 tmp.Add(new Tuple<int, int>(i, j));
 
@@ -359,7 +355,7 @@ namespace OtHelloWars_IA
             int i = x;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int j = y;
-            while ((i > 0 && i < 8)&& (j > 0 && j < 8))
+            while ((i >= 0 && i < 8)&& (j > 0 && j < 8))
             {
                 tmp.Add(new Tuple<int, int>(i, j));
 
@@ -457,7 +453,12 @@ namespace OtHelloWars_IA
             int optVal = minOrMax * -1;
             Tuple<int, int> optOp = null;
 
-            foreach(Tuple<int, int> op in ValideOp(game, whiteTurn))
+            List<Tuple<int, int>> ops = ValideOp(game, whiteTurn);
+
+            if (level > ops.Count())
+                level = ops.Count();
+
+            foreach(Tuple<int, int> op in ops)
             {
                 int[,] newBoard = ApplyOp(game, op, whiteTurn).Clone() as int [,];
                 isWhite = !whiteTurn;
@@ -500,7 +501,7 @@ namespace OtHelloWars_IA
             if (IsLegal(game, op.Item1, op.Item2, whiteTurn ? (int)Colors.black : (int)Colors.white))
             {
                 ReturnPawn(newGame, whiteTurn);
-                newGame[op.Item1, op.Item2] = whiteTurn ? 0 : 1;
+                newGame[op.Item1, op.Item2] = whiteTurn ? (int)Colors.white : (int)Colors.black;
             }
 
             return newGame;

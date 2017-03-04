@@ -32,10 +32,10 @@ namespace OtHelloWars
                 }
             }
             
-            board[3, 3] = 0;
-            board[4, 4] = 0;
-            board[3, 4] = 1;
-            board[4, 3] = 1;
+            board[3, 3] = 1;
+            board[4, 4] = 1;
+            board[3, 4] = 0;
+            board[4, 3] = 0;
             isWhite = false;
             init();
             players[0].StartTimer();
@@ -281,7 +281,7 @@ namespace OtHelloWars
                 tmp = playableAxisY(x, y + 1, pawnEnemy, 1);
                 result |= tmp;
             }
-            if (x - 1 >= 0 && y + 1 <8 && board[x - 1, y + 1] == pawnEnemy) //sud ouest
+            if ((x - 1 >= 0 && y + 1 <8) && board[x - 1, y + 1] == pawnEnemy) //sud ouest
             {
                 tmp = playableDiag1(x - 1, y + 1, pawnEnemy, 1);
                 result |= tmp;
@@ -291,7 +291,7 @@ namespace OtHelloWars
                 tmp = playableAxisX(x - 1, y, pawnEnemy, -1);
                 result |= tmp;
             }
-            if (x - 1 >= 0 && y - 1 >= 0 && board[x - 1, y - 1] == pawnEnemy) // nord ouest
+            if ((x - 1 >= 0 && y - 1 >= 0) && board[x - 1, y - 1] == pawnEnemy) // nord ouest
             {
                 tmp = playableDiag2(x - 1, y - 1, pawnEnemy, -1);
                 result |= tmp;
@@ -301,7 +301,7 @@ namespace OtHelloWars
                 tmp = playableAxisY(x, y - 1, pawnEnemy, -1);
                 result |= tmp;
             }
-            if (x + 1 <8 && y - 1 >= 0 && board[x + 1, y - 1] == pawnEnemy) //nord est
+            if ((x + 1 <8 && y - 1 >= 0) && board[x + 1, y - 1] == pawnEnemy) //nord est
             {
                 tmp = playableDiag1(x + 1, y - 1, pawnEnemy, -1);
                 result |= tmp;
@@ -311,7 +311,7 @@ namespace OtHelloWars
                 tmp = playableAxisX(x + 1, y, pawnEnemy, 1);
                 result |= tmp;
             }
-            if (x + 1 <8 && y + 1 <8 && board[x + 1, y + 1] == pawnEnemy) //sud est
+            if ((x + 1 <8 && y + 1 <8) && board[x + 1, y + 1] == pawnEnemy) //sud est
             {
                 tmp = playableDiag2(x + 1, y + 1, pawnEnemy, 1);
                 result |= tmp;
@@ -333,7 +333,7 @@ namespace OtHelloWars
             bool result = false;
             int i = y;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
-            while(i>0 && i < 8)
+            while(i>=0 && i < 8)
             {
                 tmp.Add(new Tuple<int, int>(x,i));
                 if(board[x,i] != pawnEnemy)
@@ -397,7 +397,7 @@ namespace OtHelloWars
             int i = x;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int j = y;
-            while ((i > 0 && i < 8)&&(j>0 && j<8))
+            while ((i >= 0 && i < 8)&&(j>0 && j<8))
             {
                 tmp.Add(new Tuple<int, int>(i, j));
 
@@ -431,7 +431,7 @@ namespace OtHelloWars
             int i = x;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int j = y;
-            while ((i > 0 && i < 8)&& (j > 0 && j < 8))
+            while ((i >= 0 && i < 8)&& (j > 0 && j < 8))
             {
                 tmp.Add(new Tuple<int, int>(i, j));
 

@@ -45,22 +45,22 @@ namespace OtHelloWars
                     tuc.MouseLeftButtonUp += TileUC_MouseLeftButtonUp;
                     if (i == 3 && j == 3)
                     {
-                        tuc.PawnLbl.Background = this.game.GetBrush(0);
+                        tuc.PawnLbl.Background = this.game.GetBrush(1);
                         tuc.IsEmpty = false;
                     }
                     else if (i == 3 && j == 4)
                     {
-                        tuc.PawnLbl.Background = this.game.GetBrush(1);
+                        tuc.PawnLbl.Background = this.game.GetBrush(0);
                         tuc.IsEmpty = false;
                     }
                     else if (i == 4 && j == 3)
                     {
-                        tuc.PawnLbl.Background = this.game.GetBrush(1);
+                        tuc.PawnLbl.Background = this.game.GetBrush(0);
                         tuc.IsEmpty = false;
                     }
                     else if (i == 4 && j == 4)
                     {
-                        tuc.PawnLbl.Background = this.game.GetBrush(0);
+                        tuc.PawnLbl.Background = this.game.GetBrush(1);
                         tuc.IsEmpty = false;
                     }
                     Grid.SetColumn(tuc, i);
