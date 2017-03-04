@@ -257,7 +257,7 @@ namespace OtHelloWars_IA
             bool result = false;
             int i = y;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
-            while(i>=0 && i < 8)
+            while(i >= 0 && i < 8)
             {
                 tmp.Add(new Tuple<int, int>(x,i));
                 if(game[x,i] != pawnEnemy)
@@ -307,7 +307,7 @@ namespace OtHelloWars_IA
         }
 
         /// <summary>
-        /// Check if the player can play in first diagonal.
+        /// Check if the player can play in first diagonal (NE - SW).
         /// Store the opposite pawn position in a list.
         /// </summary>
         /// <param name="x"></param>
@@ -321,7 +321,7 @@ namespace OtHelloWars_IA
             int i = x;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int j = y;
-            while ((i >= 0 && i < 8)&&(j>0 && j<8))
+            while ((i >= 0 && i < 8)&&(j >= 0 && j < 8))
             {
                 tmp.Add(new Tuple<int, int>(i, j));
 
@@ -341,7 +341,7 @@ namespace OtHelloWars_IA
         }
 
         /// <summary>
-        /// Check if the player can play in seconde diagonal.
+        /// Check if the player can play in seconde diagonal (NW - SE).
         /// Store the opposite pawn position in a list.
         /// </summary>
         /// <param name="x"></param>
@@ -355,7 +355,7 @@ namespace OtHelloWars_IA
             int i = x;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int j = y;
-            while ((i >= 0 && i < 8)&& (j > 0 && j < 8))
+            while ((i >= 0 && i < 8)&& (j >= 0 && j < 8))
             {
                 tmp.Add(new Tuple<int, int>(i, j));
 
@@ -387,11 +387,11 @@ namespace OtHelloWars_IA
             }
             return toReturn;
         }
+        
 
-
-        ///
-        /// INTERFACE IPlayable
-        ///
+        /////////////////////////////////////////////////////
+        // INTERFACE IPlayable
+        /////////////////////////////////////////////////////
 
         public string GetName()
         {
@@ -439,9 +439,9 @@ namespace OtHelloWars_IA
             return players[1].Score;
         }
 
-        ///
-        /// IA
-        ///
+        /////////////////////////////////////////////////////
+        // IA
+        /////////////////////////////////////////////////////
 
         private Tuple<int, Tuple<int, int>> AlphaBeta(int[,] game, int level, bool whiteTurn, int parentValue)
         {
@@ -529,7 +529,7 @@ namespace OtHelloWars_IA
             int pieceNumber = whiteTurn ? GetWhiteScore() : GetBlackScore();
             int moveNumber = GetNbMoves(game, whiteTurn);
             Score(game);
-            if(GetBlackScore() + GetWhiteScore() < 32)
+            if (GetBlackScore() + GetWhiteScore() < 32)
             {
                 return 2 * moveNumber + GetBoardScore(game, whiteTurn);
             }

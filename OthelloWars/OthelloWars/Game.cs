@@ -397,7 +397,7 @@ namespace OtHelloWars
             int i = x;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int j = y;
-            while ((i >= 0 && i < 8)&&(j>0 && j<8))
+            while ((i >= 0 && i < 8)&&(j>=0 && j<8))
             {
                 tmp.Add(new Tuple<int, int>(i, j));
 
@@ -431,7 +431,7 @@ namespace OtHelloWars
             int i = x;
             List<Tuple<int, int>> tmp = new List<Tuple<int, int>>();
             int j = y;
-            while ((i >= 0 && i < 8)&& (j > 0 && j < 8))
+            while ((i >= 0 && i < 8)&& (j >= 0 && j < 8))
             {
                 tmp.Add(new Tuple<int, int>(i, j));
 
