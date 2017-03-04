@@ -455,8 +455,8 @@ namespace OtHelloWars_IA
 
             List<Tuple<int, int>> ops = ValideOp(game, whiteTurn);
 
-            if (level > ops.Count())
-                level = ops.Count();
+            //if (level > ops.Count())
+            //    level = ops.Count();
 
             foreach(Tuple<int, int> op in ops)
             {
