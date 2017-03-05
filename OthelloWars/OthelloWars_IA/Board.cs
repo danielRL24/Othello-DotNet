@@ -23,7 +23,7 @@ namespace OtHelloWars_IA
                                                  {-20, -40, -5, -5, -5, -5, -40, -20 },
                                                  {120, -20, 20, 5, 5, 20, -20, 120}};
 
-        #region BoardClasses
+        #region BoardFunctions
 
         /// <summary>
         /// Default Constructor
