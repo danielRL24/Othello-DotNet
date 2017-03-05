@@ -23,6 +23,7 @@ namespace OtHelloWars_IA
                                                  {-20, -40, -5, -5, -5, -5, -40, -20 },
                                                  {120, -20, 20, 5, 5, 20, -20, 120}};
 
+        #region BoardClasses
 
         /// <summary>
         /// Default Constructor
@@ -387,7 +388,10 @@ namespace OtHelloWars_IA
             }
             return toReturn;
         }
-        
+
+        #endregion
+
+        #region IPlayable
 
         /////////////////////////////////////////////////////
         // INTERFACE IPlayable
@@ -439,8 +443,12 @@ namespace OtHelloWars_IA
             return players[1].Score;
         }
 
+        #endregion
+
+        #region AlphaBeta
+
         /////////////////////////////////////////////////////
-        // IA
+        // IA - Alphabeta
         /////////////////////////////////////////////////////
 
         private Tuple<int, Tuple<int, int>> AlphaBeta(int[,] game, int level, bool whiteTurn, int parentValue)
@@ -448,15 +456,12 @@ namespace OtHelloWars_IA
             int minOrMax = whiteTurn ? 1 : -1;
             if(level == 0 || Final(game, whiteTurn))
             {
-                return new Tuple<int, Tuple<int, int>>(Eval(game, whiteTurn), null);
+                return new Tuple<int, Tuple<int, int>>(Eval(game, whiteTurn), new Tuple<int, int>(-1, -1));
             }
             int optVal = minOrMax * -1;
             Tuple<int, int> optOp = null;
 
             List<Tuple<int, int>> ops = ValideOp(game, whiteTurn);
-
-            //if (level > ops.Count())
-            //    level = ops.Count();
 
             foreach(Tuple<int, int> op in ops)
             {
@@ -507,23 +512,6 @@ namespace OtHelloWars_IA
             return newGame;
         }
 
-        private bool Final(int[,] game, bool whiteTurn)
-        {
-            bool final = false;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (game[i, j] == -1)
-                    {
-                        final |= IsLegal(game, i, j, whiteTurn ? (int)Colors.black : (int)Colors.white);
-                    }
-                }
-            }
-
-            return !final;
-        }
-
         private int Eval(int[,] game, bool whiteTurn)
         {
             int pieceNumber = whiteTurn ? GetWhiteScore() : GetBlackScore();
@@ -572,5 +560,24 @@ namespace OtHelloWars_IA
             }
             return score;
         }
-    }  
+
+        private bool Final(int[,] game, bool whiteTurn)
+        {
+            bool final = false;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (game[i, j] == -1)
+                    {
+                        final |= IsLegal(game, i, j, whiteTurn ? (int)Colors.black : (int)Colors.white);
+                    }
+                }
+            }
+
+            return !final;
+        }
+
+        #endregion
+    }
 }
