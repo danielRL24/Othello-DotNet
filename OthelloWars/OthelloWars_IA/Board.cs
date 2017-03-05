@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OtHelloWars_IA 
+namespace OtHelloIA4 
 {
     class Board : IPlayable.IPlayable
     {
@@ -27,6 +27,7 @@ namespace OtHelloWars_IA
 
         /// <summary>
         /// Default Constructor
+        /// Initialize board, list of player and score
         /// </summary>
         public Board ()
         {
@@ -44,65 +45,16 @@ namespace OtHelloWars_IA
             board[3, 4] = 1;
             board[4, 3] = 1;
             isWhite = false;
-            init();
-            players[0].StartTimer();
 
-        }
+            teamName = "04_Nadalin_Rodrigues";
 
-        /// <summary>
-        /// Constructor used to load a game
-        /// </summary>
-        /// <param name="board">The board</param>
-        /// <param name="isWhite">Is white turn</param>
-        /// <param name="timePlayer0">First player time</param>
-        /// <param name="timePlayer1">Seconde player time</param>
-        public Board(int[,] board, bool isWhite, int timePlayer0, int timePlayer1)
-        {
-            this.board = board;
-            this.isWhite = isWhite;
-            init();
-            this.players[0].Time = timePlayer0;
-            this.players[1].Time = timePlayer1;
-            if (isWhite)
-                players[0].StartTimer();
-            else
-                players[1].StartTimer();
-        }
-
-        /// <summary>
-        /// Initialize some attributes
-        /// </summary>
-        private void init()
-        {
-            teamName = "02: Nadalin_Rodrigues";
             toReturn = new List<Tuple<int, int>>();
+
             players = new List<Player>();
             players.Add(new Player());
             players.Add(new Player());
-            Score(board);
-        }
 
-        /// <summary>
-        /// Put the pawn of current player and move to next player
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public void Play(int x, int y)
-        {
-            ReturnPawn(board, isWhite);
-            board[x, y] = isWhite ? (int)Colors.white : (int)Colors.black;
-            isWhite = !isWhite;
             Score(board);
-            if (isWhite)
-            {
-                players[0].StopTimer();
-                players[1].StartTimer();
-            }
-            else
-            {
-                players[1].StopTimer();
-                players[0].StartTimer();
-            }
         }
 
         /// <summary>
@@ -128,56 +80,6 @@ namespace OtHelloWars_IA
             }
             players[0].Score = scoreA;
             players[1].Score = scoreB;
-        }
-
-        /// <summary>
-        /// Get the current player pawn type
-        /// </summary>
-        /// <returns>Type</returns>
-        public int CurrentPawnType()
-        {
-            return isWhite ? (int)Colors.white : (int)Colors.black;
-        }
-
-        /// <summary>
-        /// Get the ennemy pawn type
-        /// </summary>
-        /// <returns></returns>
-        public int PawnEnemyType()
-        {
-            return isWhite ? (int)Colors.black : (int)Colors.white;
-        }
-
-        /// <summary>
-        /// List of players property
-        /// </summary>
-        public List<Player> Players
-        {
-            get
-            {
-                return players;
-            }
-
-            set
-            {
-                players = value;
-            }
-        }
-
-        /// <summary>
-        /// If the current player is white property
-        /// </summary>
-        public bool IsWhite
-        {
-            get
-            {
-                return isWhite;
-            }
-
-            set
-            {
-                isWhite = value;
-            }
         }
 
         /// <summary>
@@ -397,11 +299,22 @@ namespace OtHelloWars_IA
         // INTERFACE IPlayable
         /////////////////////////////////////////////////////
 
+        /// <summary>
+        /// Get name of team
+        /// </summary>
+        /// <returns>Team's name</returns>
         public string GetName()
         {
             return teamName;
         }
 
+        /// <summary>
+        /// Check if is playable
+        /// </summary>
+        /// <param name="column">Column number</param>
+        /// <param name="line">Line number</param>
+        /// <param name="isWhite">Is white turn?</param>
+        /// <returns>Playable or not</returns>
         public bool IsPlayable(int column, int line, bool isWhite)
         {
             this.isWhite = isWhite;
@@ -414,12 +327,22 @@ namespace OtHelloWars_IA
             bool result = IsLegal(board, column, line, isWhite ? (int)Colors.black : (int)Colors.white);
             if (result)
             {
-                Play(column, line);
+                ReturnPawn(board, isWhite);
+                board[column, line] = isWhite ? (int)Colors.white : (int)Colors.black;
+                isWhite = !isWhite;
+                Score(board);
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Get the next move. Use of alpha-beta algorithm to determine the best next move
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="level"></param>
+        /// <param name="whiteTurn"></param>
+        /// <returns>Move</returns>
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
             this.isWhite = whiteTurn;
@@ -428,16 +351,28 @@ namespace OtHelloWars_IA
             return result.Item2;
         }
 
+        /// <summary>
+        /// Get the actual board
+        /// </summary>
+        /// <returns>Board</returns>
         public int[,] GetBoard()
         {
             return board;
         }
 
+        /// <summary>
+        /// Get the score of white player
+        /// </summary>
+        /// <returns>Score</returns>
         public int GetWhiteScore()
         {
             return players[0].Score;
         }
 
+        /// <summary>
+        /// Get the score of black player
+        /// </summary>
+        /// <returns>Score</returns>
         public int GetBlackScore()
         {
             return players[1].Score;
@@ -451,9 +386,20 @@ namespace OtHelloWars_IA
         // IA - Alphabeta
         /////////////////////////////////////////////////////
 
+        /// <summary>
+        /// Algorithme alpha-beta 2 
+        /// </summary>
+        /// <param name="game">Plateau de jeu actuel</param>
+        /// <param name="level">Niveau de profondeur</param>
+        /// <param name="whiteTurn">Tour du joureur blanc ?</param>
+        /// <param name="parentValue">Valeur du parent</param>
+        /// <returns></returns>
         private Tuple<int, Tuple<int, int>> AlphaBeta(int[,] game, int level, bool whiteTurn, int parentValue)
         {
             int minOrMax = whiteTurn ? 1 : -1;
+            // Si la profondeur est de 0 ou c'est la fin de jeu, on retourne :
+            //  - le score du plateau
+            //  - la position (-1, -1) -> cette position indique au moteur que le joueur ne peut plus jouer
             if(level == 0 || Final(game, whiteTurn))
             {
                 return new Tuple<int, Tuple<int, int>>(Eval(game, whiteTurn), new Tuple<int, int>(-1, -1));
@@ -462,7 +408,7 @@ namespace OtHelloWars_IA
             Tuple<int, int> optOp = null;
 
             List<Tuple<int, int>> ops = ValideOp(game, whiteTurn);
-
+            // Parcours des coups possibles
             foreach(Tuple<int, int> op in ops)
             {
                 int[,] newBoard = ApplyOp(game, op, whiteTurn).Clone() as int [,];
@@ -478,11 +424,15 @@ namespace OtHelloWars_IA
                     }
                 }
             }
-
             return new Tuple<int, Tuple<int, int>>(optVal, optOp);
-
         }
 
+        /// <summary>
+        /// Permet d'obtenir la liste d'opération valide pour un plateau de jeu donnée
+        /// </summary>
+        /// <param name="game">Plateau de jeu</param>
+        /// <param name="whiteTurn">Tour du joueur blanc ?</param>
+        /// <returns>Liste</returns>
         private List<Tuple<int, int>> ValideOp(int[,] game, bool whiteTurn)
         {
             List<Tuple<int, int>> list = new List<Tuple<int, int>>();
@@ -499,6 +449,13 @@ namespace OtHelloWars_IA
             return list;
         }
 
+        /// <summary>
+        /// Applique un coup donnée sur un plateau de jeu donnée
+        /// </summary>
+        /// <param name="game">Plateau de jeu</param>
+        /// <param name="op">Coup à appliquer</param>
+        /// <param name="whiteTurn">Tour du joueur blanc ?</param>
+        /// <returns>Plateau de jeu une fois le coup joué</returns>
         private int[,] ApplyOp(int[,] game, Tuple<int, int> op, bool whiteTurn)
         {
             int[,] newGame = game.Clone() as int[,];
@@ -508,26 +465,46 @@ namespace OtHelloWars_IA
                 ReturnPawn(newGame, whiteTurn);
                 newGame[op.Item1, op.Item2] = whiteTurn ? (int)Colors.white : (int)Colors.black;
             }
-
             return newGame;
         }
 
+        /// <summary>
+        /// Fonction d'évaluation. 
+        /// Permet de donner une valeur au plateau de jeu selon quel jouer joue.
+        /// Cette fonction prend en compte plusieurs facteurs pour déterminer le score d'un plateau :
+        ///   - Le nombre de pièce du joueur
+        ///   - Le score du plateau de jeu (somme de l'importance des cases conquises)
+        ///   - Le nombre de coups possible actuellement
+        /// </summary>
+        /// <param name="game">Plateau de jeu</param>
+        /// <param name="whiteTurn">Tour du joueur blanc?</param>
+        /// <returns>Valeur du plateau</returns>
         private int Eval(int[,] game, bool whiteTurn)
         {
+            Score(game);
+
             int pieceNumber = whiteTurn ? GetWhiteScore() : GetBlackScore();
             int moveNumber = GetNbMoves(game, whiteTurn);
-            Score(game);
+            int boardScore = GetBoardScore(game, whiteTurn);
+
+            // 1ere moitie de jeu, 1ere strategie => mobilite
             if (GetBlackScore() + GetWhiteScore() < 32)
             {
-                return 2 * moveNumber + GetBoardScore(game, whiteTurn);
+                return 2 * moveNumber + boardScore;
             }
+            // 2eme moitie de jeu, 2eme strategie => nombre de pieces recoltees
             else
             {
-                return 2 * pieceNumber + moveNumber + 3 * GetBoardScore(game, whiteTurn);
+                return 2 * pieceNumber + moveNumber + 3 * boardScore;
             }
-
         }
 
+        /// <summary>
+        /// Permet d'obtenir le nombre de coups possible pour un plateau donné selon le joueur
+        /// </summary>
+        /// <param name="game">Plateau de jeu</param>
+        /// <param name="whiteTurn">Tour du joueur blanc?</param>
+        /// <returns>Nombre de coups possibles</returns>
         private int GetNbMoves(int[,] game, bool whiteTurn)
         {
             int moves = 0;
@@ -544,6 +521,14 @@ namespace OtHelloWars_IA
             return moves;
         }
 
+        /// <summary>
+        /// Permet d'obtenir le score d'un plateau.
+        /// Le score d'un plateau est la somme du poids des cases conquises par le joueur.
+        /// Le point de chaque case est donné par un tableau.
+        /// </summary>
+        /// <param name="game">Plateau de jeu</param>
+        /// <param name="whiteTurn">Tour du joueur blanc?</param>
+        /// <returns>Score du plateau de jeu du joueur</returns>
         private int GetBoardScore(int[,] game, bool whiteTurn)
         {
             int score = 0;
@@ -561,6 +546,12 @@ namespace OtHelloWars_IA
             return score;
         }
 
+        /// <summary>
+        /// Permet de déterminer si le joueur peut encore jouer ou pas.
+        /// </summary>
+        /// <param name="game">Plateau de jeu</param>
+        /// <param name="whiteTurn">Tour de joueur blanc?</param>
+        /// <returns>Fin de jeu</returns>
         private bool Final(int[,] game, bool whiteTurn)
         {
             bool final = false;
@@ -574,7 +565,6 @@ namespace OtHelloWars_IA
                     }
                 }
             }
-
             return !final;
         }
 

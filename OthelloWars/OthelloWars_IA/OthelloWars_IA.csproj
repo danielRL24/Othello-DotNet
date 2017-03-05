@@ -7,7 +7,7 @@
     <ProjectGuid>{37DDFFBC-EE91-4FCC-91BA-A4BD8BFB549E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OthelloWars_IA</RootNamespace>
+    <RootNamespace>OthelloIA4</RootNamespace>
     <AssemblyName>OthelloIA4</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -37,7 +37,7 @@
   <ItemGroup>
     <Reference Include="IPlayable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\IPlayable.dll</HintPath>
+      <HintPath>.\IPlayable.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
