@@ -495,7 +495,7 @@ namespace OtHelloIA4
             // 2eme moitie de jeu, 2eme strategie => nombre de pieces recoltees
             else
             {
-                return 2 * pieceNumber + moveNumber + 3 * boardScore;
+                return 2 * pieceNumber + moveNumber + 4 * boardScore;
             }
         }
 
