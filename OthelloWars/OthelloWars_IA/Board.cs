@@ -408,6 +408,7 @@ namespace OtHelloIA4
             Tuple<int, int> optOp = null;
 
             List<Tuple<int, int>> ops = ValideOp(game, whiteTurn);
+            optOp = ops[0];
             // Parcours des coups possibles
             foreach(Tuple<int, int> op in ops)
             {
